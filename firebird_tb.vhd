@@ -19,6 +19,9 @@ architecture behavior of firebird_tb is
    signal rsig : std_logic := '0';
    signal clk : std_logic := '0';
    signal rst : std_logic := '0';
+   
+   constant freq : real := 100.0e6;
+   constant half_period : time := 1 sec / freq; 
 
    -- Outputs
    signal leftlight : std_logic_vector(2 downto 0);
@@ -36,11 +39,38 @@ begin
 		rightlight => rightlight
     );
 
+    clock : 
+        clk <= not clk after half_period;
+
     -- Stimulus goes here
     tb : process
     begin
         wait for 100 ns;
+        rst <= '1';
+        wait for 15 ns;
 
+        rst <= '0';
+        wait for 10 ns;
+
+        lsig <= '1';
+        rsig <= '0';
+        wait for 150 ns;
+
+        lsig <= '0';
+        rsig <= '1';
+        wait for 150 ns;
+
+        lsig <= '0';
+        rsig <= '0';
+        wait for 250 ns;
+
+        lsig <= '1';
+        rsig <= '1';
+        wait for 150 ns;
+
+        lsig <= '0';
+        rsig <= '0';
+        wait for 50 ns;
 
         wait;
     end process;
