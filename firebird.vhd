@@ -53,6 +53,32 @@ begin
         end case;
     end process;
 
+    process (pr_state)
+    begin
+        case pr_state is
+            when OFF => 
+                leftlight <= "000";
+                rightlight <= "000"; 
+            when L1 => 
+                leftlight <= "001";
+                rightlight <= "000"; 
+            when L2 => 
+                leftlight <= "011";
+                rightlight <= "000"; 
+            when L3 => 
+                leftlight <= "111";
+                rightlight <= "000"; 
+            when R1 => 
+                leftlight <= "000";
+                rightlight <= "100"; 
+            when R2 => 
+                leftlight <= "000";
+                rightlight <= "110"; 
+            when R3 => 
+                leftlight <= "000";
+                rightlight <= "111"; 
+        end case;
+    end process;
 
 end arch;
 
