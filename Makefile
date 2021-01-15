@@ -1,5 +1,5 @@
 CC = ghdl
-SRC = firebird.vhd firebird_tb.vhd
+SRC = firebird.vhd clk_divider.vhd firebird_tb.vhd
 OBJ = work-obj93.cf
 VCD = firebird.vcd
 MOD = firebird_tb 

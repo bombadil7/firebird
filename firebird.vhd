@@ -8,17 +8,29 @@ port (  lsig, rsig, clk, rst : in std_logic;
 end firebird;
 
 architecture arch of firebird is
+    component clk_div is
+    port ( clkin : in std_logic;
+            rst : in std_logic;
+            clkout : out std_logic);
+    end component;
+
 	type state is (OFF, L1, L2, L3, R1, R2, R3);
     signal pr_state, nx_state : state;
+    signal slowclk : std_logic;
 begin
-    process (clk)
+
+    divider: clk_div port map (
+        clkin => clk,
+        rst => rst,
+        clkout => slowclk
+    );
+
+    process (slowclk, rst)
     begin
-        if (clk'event and clk='1') then
-            if (rst='1') then
-                pr_state <= OFF;
-            else
-                pr_state <= nx_state;
-            end if;
+        if (rst='0') then
+            pr_state <= OFF;
+        elsif (slowclk'event and slowclk='1') then
+            pr_state <= nx_state;
         end if;
     end process;
 
@@ -81,5 +93,3 @@ begin
     end process;
 
 end arch;
-
-
